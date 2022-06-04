@@ -15,9 +15,10 @@ if [[ -z "$(which repo)" ]]; then
     exit 1
 fi
 
-# Set variables required for Telegram.
+# Set variables.
 API_KEY=""
 CHAT_ID=""
+FORCE_SYNC=""
 USE_TELEGRAM=""
 
 # Setup necessary Telegram functions.
@@ -41,7 +42,11 @@ else
         echo "Syncing Source Code."
     fi
     repo init -u https://github.com/ProjectRobust/platform_manifest -b raijin --depth 1
-    repo sync
+    if [ $FORCE_SYNC = "1" ]; then
+        repo sync --force-sync
+    else
+        repo sync
+    fi
 fi
 
 # Close QCOM SEPolicy
