@@ -76,3 +76,20 @@ fi
 source build/envsetup.sh
 lunch robust_ginkgo-userdebug
 m otapackage -j12
+
+# Check if Build is completed or not
+if [[ -f "out/target/product/ginkgo/robust_ginkgo-ota-eng.${KBUILD_USER_HOST}.zip" ]]; then
+    if [ $USE_TELEGRAM = "1" ]; then
+        sendTG "Build Complete"
+    else
+        echo "Build Complete"
+    fi
+else
+    if [ $USE_TELEGRAM = "1" ]; then
+        sendTG "Build Failed."
+        sendTG "Check Logs for details."
+    else
+        echo "Build Failed."
+        echo "Check Logs for details."
+    fi
+fi
