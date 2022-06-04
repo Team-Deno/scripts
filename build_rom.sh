@@ -32,7 +32,7 @@ function sendTG() {
 }
 
 # Sync the android source (depth sync since its a CI)
-if [[ -f "build/envsetup.sh" ]]; then
+if [[ -f "build/envsetup.sh" ] && [ $FORCE_SYNC = "" ]]; then
     if [ $USE_TELEGRAM = "1" ]; then
         sendTG "Source already synced."
         sendTG "Skipping Sync."
