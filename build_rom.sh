@@ -21,6 +21,11 @@ CHAT_ID=""
 FORCE_SYNC=""
 USE_TELEGRAM=""
 
+# Set Build Flavor
+BUILD_ENG=""
+BUILD_USER=""
+BUILD_USERDEBUG=""
+
 # Setup necessary Telegram functions.
 function sendTG() {
 	curl -s "https://api.telegram.org/bot$API_KEY/sendmessage" --data "text=${*}&chat_id=$CHAT_ID&parse_mode=HTML" >/dev/null
@@ -79,7 +84,19 @@ else
     echo "Starting Build"
 fi
 source build/envsetup.sh
-lunch robust_ginkgo-userdebug
+if [ $BUILD_ENG = "1" ]; then
+    lunch robust_ginkgo-eng
+elif [ $BUILD_USER = "1" ]; then
+    lunch robust_ginkgo-user
+elif [ $BUILD_USERDEBUG = "1" ]; then
+    lunch robust_ginkgo-userdebug
+else
+    if [ $USE_TELEGRAM = "1" ]; then
+        sendTG "No Build Flavor selected."
+    else
+        echo "No Build Flavor selected."
+    fi
+fi
 m otapackage -j12
 
 # Check if Build is completed or not
