@@ -16,8 +16,13 @@ if [[ -z "$(which repo)" ]]; then
 fi
 
 # Sync the android source (depth sync since its a CI)
-repo init -u https://github.com/ProjectRobust/platform_manifest -b raijin --depth 1
-repo sync
+if [[ -f "build/envsetup.sh" ]]; then
+    echo "Source already synced."
+    echo "Skipping Sync."
+else
+    repo init -u https://github.com/ProjectRobust/platform_manifest -b raijin --depth 1
+    repo sync
+fi
 
 # Close QCOM SEPolicy
 git clone -b raijin https://github.com/ProjectRobust/device_qcom_sepolicy device/qcom/sepolicy
