@@ -93,8 +93,10 @@ elif [ $BUILD_USERDEBUG = "1" ]; then
 else
     if [ $USE_TELEGRAM = "1" ]; then
         sendTG "No Build Flavor selected."
+	exit 1
     else
         echo "No Build Flavor selected."
+	exit 1
     fi
 fi
 m otapackage -j12
@@ -110,8 +112,10 @@ else
     if [ $USE_TELEGRAM = "1" ]; then
         sendTG "Build Failed."
         sendTG "Check Logs for details."
+	exit 1
     else
         echo "Build Failed."
         echo "Check Logs for details."
+	exit 1
     fi
 fi
